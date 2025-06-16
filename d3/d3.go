@@ -79,10 +79,6 @@ func main() {
 		if err != nil {
 			os.Stderr.WriteString("Error writing line\n")
 		}
-		err = buf.Flush()
-		if err != nil {
-			os.Stderr.WriteString("Error flushing buffer\n")
-		}
 
 		currPos = nextPos
 	}
