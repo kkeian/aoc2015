@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 )
@@ -40,7 +41,14 @@ func main() {
 	housesVisted := make(map[houseCoord]bool)
 	housesVisted[startPos] = true
 
-	for _, c := range content {
+	buf := bufio.NewWriter(os.Stdout)
+	lineOut := fmt.Sprintf("1 - %c (%d, %d)\n", ' ', currPos.X, currPos.Y)
+	_, err = buf.WriteString(lineOut)
+	if err != nil {
+		os.Stderr.WriteString("Error writing line\n")
+	}
+
+	for i, c := range content {
 		var nextPos houseCoord
 		switch move[c] {
 		case Up:
@@ -57,8 +65,23 @@ func main() {
 			housesVisted[nextPos] = true
 			uniqueHouses++
 		}
+
+		lineOut = fmt.Sprintf("%d - %c (%d, %d)\n", i+1, c, nextPos.X, nextPos.Y)
+		_, err = buf.WriteString(lineOut)
+		if err != nil {
+			os.Stderr.WriteString("Error writing line\n")
+		}
+
 		currPos = nextPos
 	}
 
-	fmt.Printf("Number of unique houses presents delivered at: %d\n", uniqueHouses)
+	lineOut = fmt.Sprintf("Number of unique houses presents delivered at: %d\n", uniqueHouses)
+	_, err = buf.WriteString(lineOut)
+	if err != nil {
+		os.Stderr.WriteString("Error writing line\n")
+	}
+	err = buf.Flush()
+	if err != nil {
+		os.Stderr.WriteString("Error flushing buffer\n")
+	}
 }
