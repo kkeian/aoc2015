@@ -5,3 +5,4 @@ input
 *.jpg
 *.png
 *.gif
+.DS_Store
