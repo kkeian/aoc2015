@@ -1,0 +1,4 @@
+#!/bin/bash
+RES=$(grep -E -n '([a-z]).?\1' input)
+RES=$(echo "${RES}" | grep -E '([a-z])([a-z]).*\1\2')
+echo "${RES}"
